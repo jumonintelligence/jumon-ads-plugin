@@ -44,15 +44,7 @@ Skills reference each other: `ad-performance-review` diagnoses, `budget-pacing-a
 
 ## Supported platforms
 
-| Platform | Read | Write |
-|---|:---:|:---:|
-| LinkedIn Ads | ✓ | ✓ |
-| Google Ads | ✓ | — |
-| Meta (Facebook & Instagram) | ✓ | — |
-| Microsoft Advertising | ✓ | — |
-| Reddit Ads | ✓ | — |
-
-Write support beyond LinkedIn is on the roadmap — this README and the skills above will be updated as it ships.
+Jumon connects to LinkedIn Ads, Google Ads, Meta, Microsoft Advertising, and Reddit Ads today, with new platforms added over time. Rather than a static table here (which would go stale the moment capability changes), just ask Claude — after installing, "which ad platforms can you connect to?" or "what can you do on \[platform\]?" gets you the live, current answer straight from Jumon.
 
 ## Who this is for
 
