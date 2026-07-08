@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "jumon": {
+      "type": "http",
+      "url": "https://mcp.jumonintelligence.com/mcp",
+      "timeout": 600000
+    }
+  }
+}

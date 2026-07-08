@@ -1,0 +1,14 @@
+{
+  "name": "jumon-ads-plugin",
+  "owner": {
+    "name": "Jumon Intelligence"
+  },
+  "plugins": [
+    {
+      "name": "jumon-ads",
+      "source": "./plugins/jumon-ads",
+      "description": "Ad platform access and marketing skills for AI agents — LinkedIn, Google Ads, Meta, Microsoft Advertising, and Reddit via Jumon MCP.",
+      "version": "1.0.0"
+    }
+  ]
+}
