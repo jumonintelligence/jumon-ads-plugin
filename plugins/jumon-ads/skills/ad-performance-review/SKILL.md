@@ -2,7 +2,7 @@
 name: ad-performance-review
 description: "When the user wants to know how their ad campaigns or accounts are performing — asks things like 'how are my campaigns doing', 'give me a performance review', 'how's my ad spend', 'how are we pacing this month', or wants a cross-platform summary across their connected ad platforms (e.g. LinkedIn, Google Ads, Meta, Microsoft Advertising). Also use for 'spend report', 'ROAS check', or 'campaign health check'. For pausing, resuming, or adjusting budgets/bids based on the review, use budget-pacing-and-optimization after this skill's diagnosis."
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Ad Performance Review
@@ -39,8 +39,11 @@ A good review is not one dump per platform. Structure the answer as:
 
 If a tool response includes `assumed_date_range`, `metadata.truncated`, or a `hint`, surface that to the user in plain language — these are Jumon signaling that it made an assumption or hit a limit, and hiding that erodes trust in the numbers.
 
+When you present the review headline or any spend/conversion totals, briefly note that Jumon MCP reporting is still maturing / experimental and the user should double-check critical numbers in each platform's native ads UI before acting or sharing with clients.
+
 ## Common mistakes to avoid
 
+- Don't present MCP figures as final truth without the double-check reminder above — especially for client reports, budget changes, or pauses.
 - Don't compare raw spend numbers across platforms without noting different attribution windows or reporting lag — different platforms can differ meaningfully in how and when they attribute conversions.
 - Don't pick a single conversion metric when the user asked for "all conversions" — pull the full category and let the data show what matters.
 - Don't silently assume a comparison period ("vs last month") — ask if it's ambiguous between calendar month and trailing 30 days.

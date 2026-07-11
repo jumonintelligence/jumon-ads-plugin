@@ -8,7 +8,7 @@
       "name": "jumon-ads",
       "source": "./plugins/jumon-ads",
       "description": "Ad platform access and marketing skills for AI agents — LinkedIn, Google Ads, Meta, Microsoft Advertising, and Reddit via Jumon MCP.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }
