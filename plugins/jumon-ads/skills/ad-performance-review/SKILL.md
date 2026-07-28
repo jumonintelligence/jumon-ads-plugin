@@ -2,7 +2,7 @@
 name: ad-performance-review
 description: "When the user wants to know how their ad campaigns or accounts are performing — asks things like 'how are my campaigns doing', 'give me a performance review', 'how's my ad spend', 'how are we pacing this month', or wants a cross-platform summary across their connected ad platforms (e.g. LinkedIn, Google Ads, Meta, Microsoft Advertising). Also use for 'spend report', 'ROAS check', or 'campaign health check'. For pausing, resuming, or adjusting budgets/bids based on the review, use budget-pacing-and-optimization after this skill's diagnosis."
 metadata:
-  version: 1.2.0
+  version: 1.3.0
 ---
 
 # Ad Performance Review
@@ -15,7 +15,7 @@ Jumon's platform and tool catalog changes over time — new platforms and tools 
 
 1. Call `explore_platform` with no arguments to see which platforms are connected and usable right now. Only review platforms that are connected — for disconnected ones, surface the `connect_url` from the response and move on.
 2. If the user named a specific platform or account, skip straight to it. If they asked generally ("how's everything doing"), review every connected platform returned by `explore_platform` — don't limit yourself to platforms you happen to recall from past sessions.
-3. Confirm the time window before pulling data. If the user did not give one, state the range you will assume (this mirrors Jumon's own disambiguation protocol — do not silently default). Use the same window across all platforms so the cross-platform comparison is apples-to-apples.
+3. Confirm the time window before pulling data. If the user did not give one, state the range you will assume (this mirrors Jumon's own disambiguation protocol — do not silently default). Prefer a **closed multi-day** window over today/yesterday for cross-platform reviews. Pass the **same calendar dates** to every platform — do not shift dates per platform to fake a shared UTC wall-clock window. Same calendar labels are **not** the same wall-clock windows: LinkedIn/Reddit use UTC days; Google/Meta use each account's timezone; Microsoft uses `ReportTimeZone`. Cross-platform totals are approximate.
 
 ## Finding the right tool on each platform
 
@@ -36,15 +36,17 @@ A good review is not one dump per platform. Structure the answer as:
 2. **Per-platform pacing** — for each platform, spend vs. expected/budget, called out as on-pace / over-pacing / under-pacing. Use whatever pacing signal that platform's tools provide directly; where no dedicated pacing tool exists, compare period-to-date spend against the account's budget or a prior comparable period.
 3. **What's driving it** — the campaigns or ad sets responsible for the biggest spend or the biggest pacing deviation, not every row of data.
 4. **What needs a decision** — flag anything that looks like it needs a pause, budget change, or investigation, but do not take action in this skill. Hand off to `budget-pacing-and-optimization` if the user wants to act on it.
+5. **Timezone footnote (required for cross-platform)** — end with a short data-source note listing each platform's reporting timezone (from `assumed_date_range.time_zone`, account metadata, or Microsoft `report_time_zone`). State that cross-platform totals are approximate and were **not** normalized to UTC.
 
-If a tool response includes `assumed_date_range`, `metadata.truncated`, or a `hint`, surface that to the user in plain language — these are Jumon signaling that it made an assumption or hit a limit, and hiding that erodes trust in the numbers.
+If a tool response includes `assumed_date_range` (including `time_zone`), `metadata.truncated`, or a `hint`, surface that to the user in plain language — these are Jumon signaling that it made an assumption or hit a limit, and hiding that erodes trust in the numbers.
 
 When you present the review headline or any spend/conversion totals, briefly note that Jumon MCP reporting is still maturing / experimental and the user should double-check critical numbers in each platform's native ads UI before acting or sharing with clients.
 
 ## Common mistakes to avoid
 
 - Don't present MCP figures as final truth without the double-check reminder above — especially for client reports, budget changes, or pauses.
-- Don't compare raw spend numbers across platforms without noting different attribution windows or reporting lag — different platforms can differ meaningfully in how and when they attribute conversions.
+- Don't compare raw spend numbers across platforms without noting different attribution windows, reporting lag, **and reporting timezones** — never claim day totals were UTC-aligned.
+- Don't present a single summed "yesterday" across platforms as if it were one consistent 24-hour window.
 - Don't pick a single conversion metric when the user asked for "all conversions" — pull the full category and let the data show what matters.
 - Don't silently assume a comparison period ("vs last month") — ask if it's ambiguous between calendar month and trailing 30 days.
 - Don't try to execute optimizations from this skill — diagnose here, act in `budget-pacing-and-optimization`.
