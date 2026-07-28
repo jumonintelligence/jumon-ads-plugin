@@ -15,7 +15,7 @@ Jumon's platform and tool catalog changes over time — new platforms and tools 
 
 1. Call `explore_platform` with no arguments to see which platforms are connected and usable right now. Only review platforms that are connected — for disconnected ones, surface the `connect_url` from the response and move on.
 2. If the user named a specific platform or account, skip straight to it. If they asked generally ("how's everything doing"), review every connected platform returned by `explore_platform` — don't limit yourself to platforms you happen to recall from past sessions.
-3. Confirm the time window before pulling data. If the user did not give one, state the range you will assume (this mirrors Jumon's own disambiguation protocol — do not silently default). Prefer a **closed multi-day** window over today/yesterday for cross-platform reviews. Pass the **same calendar dates** to every platform (**Option A**) — do not shift dates per platform to fake a shared UTC wall-clock window. Same calendar labels are **not** the same wall-clock windows: LinkedIn/Reddit use UTC days; Google/Meta use each account's timezone; Microsoft uses `ReportTimeZone`. Cross-platform totals are approximate.
+3. Confirm the time window before pulling data. If the user did not give one, state the range you will assume (this mirrors Jumon's own disambiguation protocol — do not silently default). Prefer a **closed multi-day** window over today/yesterday for cross-platform reviews. Pass the **same calendar dates** to every platform — do not shift dates per platform to fake a shared UTC wall-clock window. Same calendar labels are **not** the same wall-clock windows: LinkedIn/Reddit use UTC days; Google/Meta use each account's timezone; Microsoft uses `ReportTimeZone`. Cross-platform totals are approximate.
 
 ## Finding the right tool on each platform
 
@@ -45,7 +45,7 @@ When you present the review headline or any spend/conversion totals, briefly not
 ## Common mistakes to avoid
 
 - Don't present MCP figures as final truth without the double-check reminder above — especially for client reports, budget changes, or pauses.
-- Don't compare raw spend numbers across platforms without noting different attribution windows, reporting lag, **and reporting timezones** (Option A) — never claim day totals were UTC-aligned.
+- Don't compare raw spend numbers across platforms without noting different attribution windows, reporting lag, **and reporting timezones** — never claim day totals were UTC-aligned.
 - Don't present a single summed "yesterday" across platforms as if it were one consistent 24-hour window.
 - Don't pick a single conversion metric when the user asked for "all conversions" — pull the full category and let the data show what matters.
 - Don't silently assume a comparison period ("vs last month") — ask if it's ambiguous between calendar month and trailing 30 days.
