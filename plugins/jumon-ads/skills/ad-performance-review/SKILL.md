@@ -2,7 +2,7 @@
 name: ad-performance-review
 description: "When the user wants to know how their ad campaigns or accounts are performing — asks things like 'how are my campaigns doing', 'give me a performance review', 'how's my ad spend', 'how are we pacing this month', or wants a cross-platform summary across their connected ad platforms (e.g. LinkedIn, Google Ads, Meta, Microsoft Advertising). Also use for 'spend report', 'ROAS check', or 'campaign health check'. For pausing, resuming, or adjusting budgets/bids based on the review, use budget-pacing-and-optimization after this skill's diagnosis."
 metadata:
-  version: 1.3.0
+  version: 1.5.0
 ---
 
 # Ad Performance Review
@@ -41,6 +41,22 @@ A good review is not one dump per platform. Structure the answer as:
 If a tool response includes `assumed_date_range` (including `time_zone`), `metadata.truncated`, or a `hint`, surface that to the user in plain language — these are Jumon signaling that it made an assumption or hit a limit, and hiding that erodes trust in the numbers.
 
 When you present the review headline or any spend/conversion totals, briefly note that Jumon MCP reporting is still maturing / experimental and the user should double-check critical numbers in each platform's native ads UI before acting or sharing with clients.
+
+## LinkedIn company and demographic engagement
+
+**Companies / net-new companies**
+
+1. Prefer `linkedin_get_company_engagement` over raw `MEMBER_COMPANY` analytics.
+2. `mode=ranked` (default) + optional compare dates for growth deltas on the **current page only** — do not invent “new logos” from that join.
+3. `mode=new_engagers` + required compare dates for companies visible now but absent from the compare window. Surface privacy false-“new” and truncation limitations; if truncated, say the list is not authoritative until filters/dates are narrowed.
+4. Scope large accounts with `campaign_ids` / `creative_ids`; page with `offset` while `has_more`.
+5. If `reconnect_url` is set, tell the user to reconnect LinkedIn for **company name/domain** enrichment only.
+
+**Industry / seniority / title / size / geo**
+
+1. Prefer `linkedin_get_demographic_engagement` with `dimension` over raw MEMBER_* analytics.
+2. Do **not** send users to reconnect for sparse `segment_label` — reconnect is company-tool only.
+3. Disclose that dimension slices are not rollups of company engagement.
 
 ## Common mistakes to avoid
 
