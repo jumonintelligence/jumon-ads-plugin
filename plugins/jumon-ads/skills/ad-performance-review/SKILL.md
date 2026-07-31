@@ -2,7 +2,7 @@
 name: ad-performance-review
 description: "When the user wants to know how their ad campaigns or accounts are performing — asks things like 'how are my campaigns doing', 'give me a performance review', 'how's my ad spend', 'how are we pacing this month', or wants a cross-platform summary across their connected ad platforms (e.g. LinkedIn, Google Ads, Meta, Microsoft Advertising). Also use for 'spend report', 'ROAS check', or 'campaign health check'. For pausing, resuming, or adjusting budgets/bids based on the review, use budget-pacing-and-optimization after this skill's diagnosis."
 metadata:
-  version: 1.5.0
+  version: 1.6.0
 ---
 
 # Ad Performance Review
@@ -25,6 +25,7 @@ Do not assume you already know the exact tool names or that today's set is compl
 2. Look for a tool whose summary describes spend, pacing, or performance reporting — that's usually the fastest path to answering "how's it going." If none stands out, a general campaign/account listing tool plus a reporting tool is the fallback.
 3. Load the exact schema for the tool(s) you picked via `explore_platform` with `tool_names` before calling them — never guess parameters.
 4. If a platform has a dedicated pacing tool (spend vs. expected/budget), prefer it over raw analytics for a "how's it going" question; save deeper analytics tools for when the user wants detail beyond simple pacing (demographics, conversions, drill-down by ad/ad set, etc.).
+5. Prefer each platform's dedicated/curated reporting tools over any generic or escape-hatch search. When you must use an escape hatch, or a curated tool is missing a filter/field you need, answer the user first — then call `report_platform_feedback` (`limitation` or `docs_gap`) once per distinct gap. Follow any `agent_instructions` on tool results that ask for feedback.
 
 For "give me everything" or "all conversions" style asks, pull every relevant field/category rather than one representative metric — Jumon's tools will tell you if a response was truncated or split; follow that guidance rather than guessing.
 
