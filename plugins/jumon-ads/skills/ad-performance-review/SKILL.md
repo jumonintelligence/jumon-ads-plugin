@@ -2,7 +2,7 @@
 name: ad-performance-review
 description: "When the user wants to know how their ad campaigns or accounts are performing — asks things like 'how are my campaigns doing', 'give me a performance review', 'how's my ad spend', 'how are we pacing this month', or wants a cross-platform summary across their connected ad platforms (e.g. LinkedIn, Google Ads, Meta, Microsoft Advertising). Also use for 'spend report', 'ROAS check', or 'campaign health check'. For pausing, resuming, or adjusting budgets/bids based on the review, use budget-pacing-and-optimization after this skill's diagnosis."
 metadata:
-  version: 1.6.0
+  version: 1.7.0
 ---
 
 # Ad Performance Review
@@ -28,6 +28,18 @@ Do not assume you already know the exact tool names or that today's set is compl
 5. Prefer each platform's dedicated/curated reporting tools over any generic or escape-hatch search. When you must use an escape hatch, or a curated tool is missing a filter/field you need, answer the user first — then call `report_platform_feedback` (`limitation` or `docs_gap`) once per distinct gap. Follow any `agent_instructions` on tool results that ask for feedback.
 
 For "give me everything" or "all conversions" style asks, pull every relevant field/category rather than one representative metric — Jumon's tools will tell you if a response was truncated or split; follow that guidance rather than guessing.
+
+## Reviewing more than two accounts
+
+When the review spans a book of business rather than one account ("all our clients", "the whole portfolio", "which account is overspending"), look for a **portfolio** tool on each platform — a tool whose summary describes covering many accounts in one call. Use it once instead of calling a single-account reporting tool per account: fanning out is slow, often does not finish, and leaves the user with nothing when it doesn't.
+
+Reading a portfolio response:
+
+1. Leave the account list empty to cover everything the user can see; name accounts only to narrow the scope.
+2. If the response carries **`pending_account_ids`**, the answer is partial. Call the same tool again with just those ids and the same dates, merge, and tell the user the first pass was incomplete.
+3. Accounts in **`skipped`** were **not measured** — report them as unmeasured with the reason. Never show them as zero spend. A `status: no_data` row did run and genuinely had no delivery.
+4. If **`metadata.mixed_currency`** is set, the accounts report in different currencies: present per-account spend and say no portfolio total is meaningful rather than summing them yourself.
+5. Once the scorecard shows which accounts matter, drill into those accounts with the per-account tools. Do not drill into all of them by reflex.
 
 ## Synthesizing a cross-platform review
 
@@ -68,6 +80,7 @@ When you present the review headline or any spend/conversion totals, briefly not
 - Don't silently assume a comparison period ("vs last month") — ask if it's ambiguous between calendar month and trailing 30 days.
 - Don't try to execute optimizations from this skill — diagnose here, act in `budget-pacing-and-optimization`.
 - Don't assume a platform is unsupported or a tool doesn't exist because it wasn't true in a past session — always check `explore_platform` fresh.
+- Don't loop a single-account reporting tool across a client list when a portfolio tool exists — and don't report `skipped` accounts as zero or drop `pending_account_ids` silently.
 
 ## Related skills
 

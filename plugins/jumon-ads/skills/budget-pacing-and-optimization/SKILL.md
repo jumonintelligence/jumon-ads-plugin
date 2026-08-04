@@ -2,7 +2,7 @@
 name: budget-pacing-and-optimization
 description: "When the user wants to act on ad account performance — pause or resume a campaign or creative, change a bid or budget, reallocate spend, or otherwise optimize a live account based on pacing or performance data. Triggers on 'pause this campaign', 'this is overspending', 'increase the budget', 'adjust bids', 'scale this up', or 'kill this ad'. Use ad-performance-review first if the user hasn't already diagnosed what needs to change."
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Budget Pacing and Optimization
@@ -14,6 +14,8 @@ You have write access to live ad accounts through Jumon's MCP tools. This skill 
 Never make a change based on assumption. Before calling a write tool:
 
 1. Pull current state with a matching read tool for that platform (found via `explore_platform`) before touching any entity. If the user hasn't already run a review, suggest `ad-performance-review` first.
+   - When the decision spans many accounts ("which clients are overspending, fix the worst ones"), start from the platform's **portfolio** read tool — one call covering many accounts — rather than reading each account in turn. Then act only on the accounts that call for it.
+   - Do not act on an account the portfolio response listed under `skipped` or `pending_account_ids`: it was not measured, so you have no basis for the change. Read that account directly first.
 2. Confirm you have the right entity — if the user references "the campaign" or "the account" ambiguously and more than one match exists, list candidates and ask rather than guessing.
 3. State what you're about to do and why, in plain language, before calling the write tool. Claude will prompt for confirmation before `execute_write_tool` actually runs — treat that confirmation as a real checkpoint, not a formality.
 
