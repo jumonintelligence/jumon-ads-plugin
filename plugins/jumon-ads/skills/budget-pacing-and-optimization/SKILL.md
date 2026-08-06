@@ -2,7 +2,7 @@
 name: budget-pacing-and-optimization
 description: "When the user wants to act on ad account performance — pause or resume a campaign or creative, change a bid or budget, reallocate spend, or otherwise optimize a live account based on pacing or performance data. Triggers on 'pause this campaign', 'this is overspending', 'increase the budget', 'adjust bids', 'scale this up', or 'kill this ad'. Use ad-performance-review first if the user hasn't already diagnosed what needs to change."
 metadata:
-  version: 1.2.0
+  version: 1.3.0
 ---
 
 # Budget Pacing and Optimization
@@ -18,6 +18,16 @@ Never make a change based on assumption. Before calling a write tool:
    - Do not act on an account the portfolio response listed under `skipped` or `pending_account_ids`: it was not measured, so you have no basis for the change. Read that account directly first.
 2. Confirm you have the right entity — if the user references "the campaign" or "the account" ambiguously and more than one match exists, list candidates and ask rather than guessing.
 3. State what you're about to do and why, in plain language, before calling the write tool. Claude will prompt for confirmation before `execute_write_tool` actually runs — treat that confirmation as a real checkpoint, not a formality.
+
+## Pacing signals before pause / budget changes
+
+When the user wants to act because something is "overspending" or "underspending", re-read the latest pacing/performance fields for that entity (not just the label):
+
+1. **Delivery eligibility first.** If the entity is not delivery-eligible (paused, billing hold, outside flight, etc.), fix or explain status/serving — do not pause again or cut budget as if it were an auction problem.
+2. **Soft daily vs hard lifetime.** Soft daily over-delivery is often normal; prefer investigating or a modest budget tweak over an automatic pause. Lifetime ceilings and approaching-lifetime-cap signals are harder stops — surface them before scaling spend up.
+3. **Trend shape.** Still ramping + under → wait or small increase, don't pause. Capped while eligible → audience/creative/frequency path. Stopped / not eligible → status path. Declining with recent daily spend well below the required rate → investigate delivery before scaling.
+4. **Honor tool `hint` fields** when present — they encode the above judgment without you inventing thresholds.
+5. Never invent a projected period total from a run rate to justify a write; use required vs recent daily spend (or the tool's own guidance) instead.
 
 ## Confirm write capability before promising it
 
