@@ -2,7 +2,7 @@
 name: ad-performance-review
 description: "When the user wants to know how their ad campaigns or accounts are performing — asks things like 'how are my campaigns doing', 'give me a performance review', 'how's my ad spend', 'how are we pacing this month', or wants a cross-platform summary across their connected ad platforms (e.g. LinkedIn, Google Ads, Meta, Microsoft Advertising). Also use for 'spend report', 'ROAS check', or 'campaign health check'. For pausing, resuming, or adjusting budgets/bids based on the review, use budget-pacing-and-optimization after this skill's diagnosis."
 metadata:
-  version: 1.7.0
+  version: 1.8.0
 ---
 
 # Ad Performance Review
@@ -51,6 +51,16 @@ A good review is not one dump per platform. Structure the answer as:
 4. **What needs a decision** — flag anything that looks like it needs a pause, budget change, or investigation, but do not take action in this skill. Hand off to `budget-pacing-and-optimization` if the user wants to act on it.
 5. **Timezone footnote (required for cross-platform)** — end with a short data-source note listing each platform's reporting timezone (from `assumed_date_range.time_zone`, account metadata, or Microsoft `report_time_zone`). State that cross-platform totals are approximate and were **not** normalized to UTC.
 
+### Reading dedicated pacing tools (especially LinkedIn)
+
+When a platform returns a pacing report with richer fields than a flat over/under label, prefer those fields over the label alone:
+
+1. **Read `hint`, delivery eligibility, and delivery trend before `pacingStatus`.** An under-pacing campaign that is still ramping needs patience; one that is capped while still eligible needs audience/creative investigation; one that is stopped (not delivery-eligible) needs a status/serving fix — not a budget cut.
+2. **Budget type matters.** Soft daily budgets often overdeliver within the tool's own over band without being "broken"; lifetime budgets are a harder ceiling. Use the thresholds the tool applied (when echoed) rather than inventing your own cutoffs.
+3. **Dual daily + lifetime budgets.** If the tool exposes a lifetime utilization or approaching-lifetime-cap signal, call that out even when daily pacing looks fine — the lifetime ceiling can still bind.
+4. **Required vs recent daily spend.** When both are present, compare them to judge whether the campaign is currently on a catch-up path; do not invent a projected period total from a run rate.
+5. **Do not flag a pause** for rows that are not delivery-eligible or whose trend says delivery stopped because of status — those are eligibility problems, not overspend problems.
+
 If a tool response includes `assumed_date_range` (including `time_zone`), `metadata.truncated`, or a `hint`, surface that to the user in plain language — these are Jumon signaling that it made an assumption or hit a limit, and hiding that erodes trust in the numbers.
 
 When you present the review headline or any spend/conversion totals, briefly note that Jumon MCP reporting is still maturing / experimental and the user should double-check critical numbers in each platform's native ads UI before acting or sharing with clients.
@@ -81,6 +91,7 @@ When you present the review headline or any spend/conversion totals, briefly not
 - Don't try to execute optimizations from this skill — diagnose here, act in `budget-pacing-and-optimization`.
 - Don't assume a platform is unsupported or a tool doesn't exist because it wasn't true in a past session — always check `explore_platform` fresh.
 - Don't loop a single-account reporting tool across a client list when a portfolio tool exists — and don't report `skipped` accounts as zero or drop `pending_account_ids` silently.
+- Don't treat every pacing `over` / `under` the same across budget types, or recommend a pause from pacing alone when the row says the campaign is not delivery-eligible or is still ramping.
 
 ## Related skills
 
