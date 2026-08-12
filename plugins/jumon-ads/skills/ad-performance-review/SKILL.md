@@ -2,7 +2,7 @@
 name: ad-performance-review
 description: "When the user wants to know how their ad campaigns or accounts are performing — asks things like 'how are my campaigns doing', 'give me a performance review', 'how's my ad spend', 'how are we pacing this month', or wants a cross-platform summary across their connected ad platforms (e.g. LinkedIn, Google Ads, Meta, Microsoft Advertising). Also use for 'spend report', 'ROAS check', or 'campaign health check'. For pausing, resuming, or adjusting budgets/bids based on the review, use budget-pacing-and-optimization after this skill's diagnosis."
 metadata:
-  version: 1.8.0
+  version: 1.8.1
 ---
 
 # Ad Performance Review
@@ -96,3 +96,4 @@ When you present the review headline or any spend/conversion totals, briefly not
 ## Related skills
 
 - **budget-pacing-and-optimization** — for pausing, resuming, or adjusting budgets/bids based on what this review surfaces.
+- **scheduled-automations** — when the user wants this kind of review to run on a recurring schedule instead of once in chat.

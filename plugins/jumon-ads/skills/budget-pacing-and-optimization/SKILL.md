@@ -2,7 +2,7 @@
 name: budget-pacing-and-optimization
 description: "When the user wants to act on ad account performance — pause or resume a campaign or creative, change a bid or budget, reallocate spend, or otherwise optimize a live account based on pacing or performance data. Triggers on 'pause this campaign', 'this is overspending', 'increase the budget', 'adjust bids', 'scale this up', or 'kill this ad'. Use ad-performance-review first if the user hasn't already diagnosed what needs to change."
 metadata:
-  version: 1.3.0
+  version: 1.3.1
 ---
 
 # Budget Pacing and Optimization
@@ -61,3 +61,4 @@ Confirm to the user what changed (before → after), and suggest a reasonable fo
 ## Related skills
 
 - **ad-performance-review** — run this first to identify what needs a decision, before reaching for a write tool.
+- **scheduled-automations** — for recurring unattended reports; do not put live write actions into automation instructions.
