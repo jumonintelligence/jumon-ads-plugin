@@ -5,8 +5,10 @@ reference to the hosted Jumon MCP server. No build, no test suite, no CI.
 
 ## Git workflow rules
 
-> **This repo has no `develop` branch.** Everyday work branches off `main` and PRs back
-> to `main`. Never push directly to `main`.
+> **This repo has no `develop` branch.** Docs, README and skill prose may land directly
+> on `main`. Anything that changes behaviour — skill logic, a skill `description` (that is
+> its trigger surface), `plugin.json`, `marketplace.json`, `.mcp.json` — branches off
+> `main` and comes back through a PR.
 
 ## Repo map
 

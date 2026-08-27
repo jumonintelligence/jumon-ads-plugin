@@ -30,6 +30,10 @@ gap is a `Blocked`. Set Status to `In Progress` once it passes.
 **This repo has no `develop` branch.** Base is `main` unless the ticket's `Base branch`
 field says otherwise.
 
+A docs-only or skill-prose-only ticket may commit straight to `main` and skip the PR.
+Anything that changes behaviour — skill logic, a skill `description`, `plugin.json`,
+`marketplace.json`, `.mcp.json` — takes a branch and a PR. When in doubt, branch.
+
 ```bash
 git fetch origin
 git stash push -u -m "pre-ticket"   # only if the tree is dirty
@@ -75,6 +79,27 @@ Ticket: <the Notion page URL from the ticket you were handed>
 ```
 
 PR targets `main`. Do not merge it yourself.
+
+### Ship-feature report
+
+Append this block to the PR body. Every line points at something in the diff or the
+commit history, so it can be checked in seconds instead of taken on trust.
+
+```markdown
+## Ship-feature report
+
+- **Scope:** files touched outside the ticket's "Where it lands" — none
+- **Cleanup:** commit `abc1234`
+- **Validation:** JSON parses, frontmatter valid, relative links resolve
+- **Docs and manifests:** `README.md`, `plugins/jumon-ads/.claude-plugin/plugin.json`
+- **Deviations from the ticket:** none
+```
+
+Cite evidence, never a checkmark: a tick you wrote about your own work is worth nothing,
+a commit SHA is a link the reviewer clicks. `N/A` with a reason is a valid line, blank is
+not. And **Deviations is the line that matters** — if you changed the ticket's design,
+scope or approach, say what and why. Deviating quietly and writing "none" makes the whole
+report worthless.
 
 ## Step 7: Write the result back to the ticket
 
