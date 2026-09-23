@@ -24,7 +24,7 @@ Jumon adds platforms and tools over time, without ever touching this repo. A ski
 - "If no matching tool exists, tell the user this isn't supported *today* — don't claim it never will be"
 - "Guardrails are enforced server-side; surface the rejection reason from the tool's response rather than asserting a number"
 
-**The four facade tools are exempt** (they're the stable, protocol-level MCP surface, not provider tooling): `explore_platform`, `execute_read_tool`, `execute_write_tool`, `report_platform_feedback`.
+**The facade tools are exempt** (they're the stable, protocol-level MCP surface, not provider tooling): `explore_platform`, `execute_read_tool`, `execute_write_tool`, `execute_write_batch`, `report_platform_feedback`.
 
 ## Litmus test
 

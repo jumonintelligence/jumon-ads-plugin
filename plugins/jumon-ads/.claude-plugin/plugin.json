@@ -1,5 +1,5 @@
 {
   "name": "jumon-ads",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Connects Claude to LinkedIn, Google Ads, Meta, Microsoft Advertising, and Reddit ad accounts via Jumon, plus skills for performance review, budget pacing, and scheduled automations."
 }
