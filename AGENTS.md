@@ -21,7 +21,7 @@ reference to the hosted Jumon MCP server. No build, no test suite, no CI.
 | `.cursor/skills/` | Repo-local agent skills (authoring and workflow, not shipped) |
 
 Shipped skills: `ad-performance-review`, `budget-pacing-and-optimization`,
-`scheduled-automations`, `linkedin-account-audit`.
+`scheduled-automations`, `linkedin-account-audit`, `linkedin-audience-builder`.
 
 ## Key invariants
 

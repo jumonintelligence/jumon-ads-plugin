@@ -35,6 +35,7 @@ Before installing, connect your ad accounts at [jumonintelligence.com](https://j
 | `plugins/jumon-ads/skills/budget-pacing-and-optimization` | Judgment for pausing, resuming, and adjusting budgets/bids |
 | `plugins/jumon-ads/skills/scheduled-automations` | Judgment for creating and managing recurring unattended reports |
 | `plugins/jumon-ads/skills/linkedin-account-audit` | Audit of a LinkedIn Ads account's setup against Jumon's LinkedIn playbook |
+| `plugins/jumon-ads/skills/linkedin-audience-builder` | Building and updating LinkedIn saved audiences from real job titles, with review before anything is created |
 
 ## Skills
 
@@ -44,8 +45,9 @@ Before installing, connect your ad accounts at [jumonintelligence.com](https://j
 | `budget-pacing-and-optimization` | When the user wants to act — pause/resume campaigns or creatives, adjust bids or budgets, and reallocate spend, with guardrails and audit trail built in. |
 | `scheduled-automations` | When the user wants a recurring Jumon automation — daily/weekly briefings, delivery conditions, pause/update/delete of saved schedules. |
 | `linkedin-account-audit` | When the user wants a LinkedIn Ads account audited: settings, bids, audiences, offers, lead forms, formats and measurement checked against Jumon's LinkedIn playbook, with the fixes ranked. |
+| `linkedin-audience-builder` | When the user wants to build or update LinkedIn saved audiences: sources real job titles (CRM, existing account engagement, or a user-supplied list), resolves every targeting facet, and reviews a draft before anything is created. |
 
-Skills reference each other: `ad-performance-review` diagnoses, `budget-pacing-and-optimization` acts interactively, `scheduled-automations` sets up recurring unattended reports. `linkedin-account-audit` checks a LinkedIn account's setup and hands fixes to `budget-pacing-and-optimization`.
+Skills reference each other: `ad-performance-review` diagnoses, `budget-pacing-and-optimization` acts interactively, `scheduled-automations` sets up recurring unattended reports. `linkedin-account-audit` checks a LinkedIn account's setup and hands fixes to `budget-pacing-and-optimization`. `linkedin-audience-builder` builds new saved audiences and hands off to `budget-pacing-and-optimization` to apply them to live campaigns.
 
 ## Supported platforms
 
