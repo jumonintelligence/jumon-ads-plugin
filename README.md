@@ -34,6 +34,7 @@ Before installing, connect your ad accounts at [jumonintelligence.com](https://j
 | `plugins/jumon-ads/skills/ad-performance-review` | Cross-platform performance and pacing review |
 | `plugins/jumon-ads/skills/budget-pacing-and-optimization` | Judgment for pausing, resuming, and adjusting budgets/bids |
 | `plugins/jumon-ads/skills/scheduled-automations` | Judgment for creating and managing recurring unattended reports |
+| `plugins/jumon-ads/skills/linkedin-account-audit` | Audit of a LinkedIn Ads account's setup against Jumon's LinkedIn playbook |
 
 ## Skills
 
@@ -42,8 +43,9 @@ Before installing, connect your ad accounts at [jumonintelligence.com](https://j
 | `ad-performance-review` | When the user wants to know how their ad campaigns or accounts are performing — cross-platform spend, pacing, and health checks across LinkedIn, Google Ads, Meta, and Microsoft Advertising. |
 | `budget-pacing-and-optimization` | When the user wants to act — pause/resume campaigns or creatives, adjust bids or budgets, and reallocate spend, with guardrails and audit trail built in. |
 | `scheduled-automations` | When the user wants a recurring Jumon automation — daily/weekly briefings, delivery conditions, pause/update/delete of saved schedules. |
+| `linkedin-account-audit` | When the user wants a LinkedIn Ads account audited: settings, bids, audiences, offers, lead forms, formats and measurement checked against Jumon's LinkedIn playbook, with the fixes ranked. |
 
-Skills reference each other: `ad-performance-review` diagnoses, `budget-pacing-and-optimization` acts interactively, `scheduled-automations` sets up recurring unattended reports.
+Skills reference each other: `ad-performance-review` diagnoses, `budget-pacing-and-optimization` acts interactively, `scheduled-automations` sets up recurring unattended reports. `linkedin-account-audit` checks a LinkedIn account's setup and hands fixes to `budget-pacing-and-optimization`.
 
 ## Supported platforms
 
