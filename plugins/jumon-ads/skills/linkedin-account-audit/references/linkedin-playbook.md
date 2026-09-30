@@ -12,9 +12,10 @@ Pre-launch checklist for every campaign: naming convention, objective, format, a
 
 - LinkedIn's defaults are built for LinkedIn's revenue, not the advertiser's.
 - **Audience Expansion** pushes ads outside the audience you defined. Turn it off.
-- **LinkedIn Audience Network** serves ads on third-party apps and sites. Low-quality traffic for B2B lead gen. Turn it off.
-- **Location**: use permanent location. "Recent or permanent" includes travelers and people passing through.
+- **LinkedIn Audience Network** serves ads on third-party apps and sites. Off by default. Cheap engagement is not a bargain: it inflates click/engagement volume at low quality for B2B lead gen — a few thousand cheap engagements from the network can look better than a few hundred real ones from the primary audience while converting far worse. Only turn it on deliberately, once the primary audience is exhausted and budget is large enough to support it, with roughly 95%+ of the reachable list excluded first. Treat it as an extra-penetration/frequency lever at that point, never a default placement.
+- **Location**: use permanent location. "Recent or permanent" includes travelers and people passing through. The only legitimate exception is a live event you're deliberately blasting spend at for a short window — otherwise permanent stays the default.
 - **Desktop-only placement** sounds smart but can shrink a 30k to 50k audience to about 3k. That's a retargeting audience: CPM spikes and the campaign never leaves learning. No reliable evidence desktop out-converts mobile.
+- **Ad rotation**: don't leave a campaign on "rotate evenly" and walk away — that's only a valid choice if someone is actively watching it and picking a winner. Otherwise switch to performance-based rotation once enough creatives are running (at least 3, ideally 3 to 7 depending on budget) so delivery shifts toward what's working. See "Winners" under Formats for what to do once one emerges.
 
 ## 2. Bidding
 
@@ -103,6 +104,8 @@ Sync these from the CRM as matched audiences so they stay current.
 **Winners**
 - Find the winner, isolate it in its own always-on campaign, and leave it running. Don't over-optimize weekly.
 - Rough split: proven winners about 40% of budget, new tests about 60%.
+- Two ways to find the winner: rotate evenly and manually pick it, or set the campaign to performance-based rotation and let delivery find the top 1-2 creatives on its own.
+- **Legacy / New split**: once a creative proves itself (roughly a month), move it into a lower-budget, always-on "Legacy" campaign so it doesn't saturate fast — at that point it's mostly doing reach/brand-awareness work. Keep testing new creatives in a separate "New" campaign and promote winners into Legacy on the same ~1-month threshold.
 
 ## 10. CTR benchmarks by format
 
@@ -128,6 +131,7 @@ Never judge every campaign against one average.
 - HubSpot to LinkedIn sync: choose the option that sends **every contact**, not only those HubSpot thinks touched an ad. Otherwise view-through matches are lost before LinkedIn sees them. Share every identifier available.
 - Influenced pipeline: only count deals with real ad exposure inside a defined window (e.g. 90 days) using tiered thresholds. Don't count a single impression.
 - Company engagement data can feed SDR call lists and outbound targeting.
+- **Check for ICP drift**: pull the demographic engagement report (job title, seniority) every couple of weeks on running campaigns. It's the fastest way to catch delivery sliding off the intended ICP before it shows up as a rising CPL.
 
 ## 13. When the ads aren't the problem
 
