@@ -2,7 +2,7 @@
 name: linkedin-account-audit
 description: "When the user wants a LinkedIn Ads account audited or asks what's wrong with their LinkedIn setup: 'audit my LinkedIn account', 'why isn't LinkedIn working', 'check my LinkedIn campaigns for mistakes', 'LinkedIn health check', 'are my settings right', 'review this campaign before launch', or before scaling LinkedIn spend. Checks settings, audiences, bids, forms, offers, formats and measurement against Jumon's LinkedIn playbook. For spend and pacing numbers use ad-performance-review; to apply fixes use budget-pacing-and-optimization."
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # LinkedIn Account Audit
@@ -24,7 +24,9 @@ Read `references/linkedin-playbook.md` before writing findings. It holds the rea
 
 ## What to pull
 
-For each in-scope campaign: objective, format, status, start date, cost type, bid strategy and amount, budget, targeting (include AND exclude facets), location type, Audience Expansion flag, LinkedIn Audience Network flag, frequency cap, conversions attached, creatives (format, attached lead form, creative age), lead form questions and hidden fields, and Message Ad copy.
+For each in-scope campaign: objective, format, status, start date, cost type, bid strategy and amount, budget, targeting (include AND exclude facets), location type, Audience Expansion flag, LinkedIn Audience Network flag, frequency cap, ad rotation / creative selection setting, conversions attached, creatives (format, attached lead form, creative age), lead form questions and hidden fields, and Message Ad copy.
+
+For A7, pull the campaign's creative-selection field from the full campaign payload (`OPTIMIZED` = performance-based, `ROUND_ROBIN` = rotate evenly). For E7, pull `linkedin_get_demographic_engagement` with `dimension: "job_title"` (and `"seniority"`) for the audit window and compare against the account's stated ICP.
 
 Also look for tools whose summaries cover **audience size** (forecast for a targeting set) and **suggested bid / bid limits** for a campaign. Use them for checks A5, A6 and B1. If no such tool exists for the connected platform, mark those checks Not checked.
 
@@ -41,11 +43,12 @@ Severity: **High** (actively burning budget), **Medium** (capping results or mis
 | # | Check | Flag when | Severity |
 |---|---|---|---|
 | A1 | Audience Expansion | On | High |
-| A2 | LinkedIn Audience Network | On for lead gen, conversion or website visit campaigns | High |
+| A2 | LinkedIn Audience Network | On for lead gen, conversion or website visit campaigns without the playbook's exhaustion + ~95%+ exclusion conditions in place | High (Low if those conditions are clearly met) |
 | A3 | Location type | "Recent or permanent" instead of permanent only | Medium |
 | A4 | Bid strategy | Maximum delivery (automated) on a campaign with meaningful budget | High |
 | A5 | Bid level | Manual bid below the suggested bid range, or under-delivering with a bid near the bottom of it | High if under-delivering, else Medium |
 | A6 | Bid below the floor | Current bid is below LinkedIn's minimum bid for the campaign's targeting (common after tightening an audience; the campaign can't resume) | High |
+| A7 | Ad rotation | `ROUND_ROBIN` (rotate evenly) with no sign anyone is actively picking a winner, and no switch to performance-based rotation once enough creatives are running | Medium |
 
 ### B. Audience
 
@@ -88,6 +91,7 @@ Severity: **High** (actively burning budget), **Medium** (capping results or mis
 | E4 | CRM feedback | No offline/CAPI conversions for later funnel stages (meeting, opportunity, closed won) | Medium |
 | E5 | Too-early calls | Campaigns paused or changed within ~2 weeks of launch on thin data | Low |
 | E6 | Message ad opens | Open rates compared against desktop data from Jan 2025 to mid-July 2026 (known LinkedIn overstatement) | Low |
+| E7 | ICP drift | No job-title/seniority demographic check in roughly the last 2-4 weeks on running campaigns | Medium |
 
 **Reading the bid strategy (A4):** LinkedIn doesn't return a "Manual / Maximum delivery / Cost cap" label. Read the campaign's optimization target type: `NONE` or `ENHANCED_CONVERSION` is manual bidding (the bid amount is the advertiser's bid); any `MAX_*` value is maximum delivery (automated); `TARGET_COST_*` is target cost; `CAP_COST_AND_MAXIMIZE_*` is cost cap.
 
