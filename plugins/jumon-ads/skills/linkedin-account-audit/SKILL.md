@@ -2,7 +2,7 @@
 name: linkedin-account-audit
 description: "When the user wants a LinkedIn Ads account audited or asks what's wrong with their LinkedIn setup: 'audit my LinkedIn account', 'why isn't LinkedIn working', 'check my LinkedIn campaigns for mistakes', 'LinkedIn health check', 'are my settings right', 'review this campaign before launch', or before scaling LinkedIn spend. Checks settings, audiences, bids, forms, offers, formats and measurement against Jumon's LinkedIn playbook. For spend and pacing numbers use ad-performance-review; to apply fixes use budget-pacing-and-optimization."
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # LinkedIn Account Audit
@@ -25,6 +25,8 @@ Read `references/linkedin-playbook.md` before writing findings. It holds the rea
 ## What to pull
 
 For each in-scope campaign: objective, format, status, start date, cost type, bid strategy and amount, budget, targeting (include AND exclude facets), location type, Audience Expansion flag, LinkedIn Audience Network flag, frequency cap, ad rotation / creative selection setting, conversions attached, creatives (format, attached lead form, creative age), lead form questions and hidden fields, and Message Ad copy.
+
+Resolve the names of any matched audiences used in include or exclude targeting (look for a tool whose summary covers listing matched audiences). B6 depends on these names.
 
 For A7, pull the campaign's creative-selection field from the full campaign payload (`OPTIMIZED` = performance-based, `ROUND_ROBIN` = rotate evenly). For E7, pull `linkedin_get_demographic_engagement` with `dimension: "job_title"` (and `"seniority"`) for the audit window and compare against the account's stated ICP.
 
@@ -59,6 +61,7 @@ Severity: **High** (actively burning budget), **Medium** (capping results or mis
 | B3 | Company exclusions | No company exclusions at all, or the advertiser's own company or named competitors (ask the user for them) are not excluded | High if none at all, else Medium |
 | B4 | Junk segments | Obvious non-buyers not excluded (students, education, tiny companies, irrelevant titles that keep showing up in leads) | Medium |
 | B5 | Saturation | Spend rising while reach is flat and frequency climbing (retargeting pools especially); frequency near the cap with no creative refresh | Medium |
+| B6 | CRM exclusions | No excluded matched audience for current customers, open opportunities or already-converted leads, or accounts actively worked by outbound are not suppressed. Read the names of the matched audiences in the campaign's exclude targeting; if names are ambiguous, ask the user which list is which. | High if none at all, else Medium per missing list |
 
 ### C. Offer and conversion path
 
@@ -104,7 +107,7 @@ The user wants to know what to fix first. Keep it scannable.
 1. **Headline**: number of High findings and a rough monthly spend exposed to them (sum of 30-day spend on affected campaigns; call it an upper bound, not "wasted").
 2. **Fix first**: top three findings. For each: what's wrong, which campaigns (grouped and counted, top offenders named), why it costs money (one line from the playbook), the exact change.
 3. **Full checklist**: every check as Pass / Flag / Not checked, one line each, grouped A to E.
-4. **Outside this audit**: whether customers, open opportunities and converted leads are excluded (tell the user to confirm their CRM exclusion lists in Campaign Manager), the offer on feed ads, lead quality after the form, post-demo follow-up, and product readiness. If qualified meetings aren't turning into pipeline, say the leak is probably after the demo, not in the ads.
+4. **Outside this audit**: the offer on feed ads, lead quality after the form, post-demo follow-up, and product readiness. If qualified meetings aren't turning into pipeline, say the leak is probably after the demo, not in the ads.
 
 Present the playbook as Jumon's LinkedIn guidance built from real B2B accounts, not as LinkedIn policy or guaranteed results. Remind the user that Jumon's data is still maturing and to confirm settings in Campaign Manager before changing live campaigns.
 
