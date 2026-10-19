@@ -2,7 +2,7 @@
 name: linkedin-audience-builder
 description: "When the user wants to build or update LinkedIn saved audiences — 'create an audience for CFOs and VPs of Finance', 'build a target list for this campaign', 'split this into two audiences', 'add these job titles', or 'update our saved audience'. For auditing an existing account's targeting, use linkedin-account-audit; for applying the finished audience to live campaigns, this skill hands off to budget-pacing-and-optimization."
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # LinkedIn Audience Builder
@@ -22,8 +22,14 @@ You are building or updating LinkedIn **saved audiences** (`adTargetTemplate` �
 Know this before you promise anything:
 
 - It holds **include/exclude targeting facets only** (titles, seniorities, job functions, industries, skills, locations, employers by name, company size, etc.) — resolved as URNs via `linkedin_search_targeting_entities`. Facets cannot be guessed; an unresolved facet is rejected.
-- Employer / employersPast / employersAll facets are stripped by LinkedIn's own API and handled through a Jumon overlay merged back in on read/apply — this works, but is worth knowing about if a dry run looks like it dropped an employer exclusion.
-- It **cannot hold uploaded email/contact lists or company lists.** Those are LinkedIn **matched audiences** (DMP segments), a separate object. If the user wants "exclude our customer list" or "exclude these named competitors" and that list isn't a small set you can resolve as `employers`/`employersAll` facet entities, use a matched audience instead: check `explore_platform` for tools whose summaries cover listing, creating and applying matched audiences, reuse an existing list if one matches, otherwise create one from the user's list, then apply it to the campaign as an exclusion. Never imply the saved audience covers it. A matched audience needs at least 300 matched members before a campaign can use it, and LinkedIn takes time to match an upload, so tell the user it may not be usable right away. If the user's LinkedIn connection is missing the matched-audience permission, they need to reconnect LinkedIn in Jumon.
+- Employer / employersPast / employersAll facets are rejected by LinkedIn on saved audiences, so Jumon keeps them in an overlay and merges them back in when the audience is read or applied **through Jumon**. They are not on LinkedIn's copy of the audience: if anyone applies it from Campaign Manager, the employer exclusions are silently dropped. Tell the user this whenever you put employer facets on a saved audience.
+- **When company exclusions must hold in Campaign Manager** (the user or their team applies audiences there, or they ask for durable competitor/customer suppression), use a company list instead of employer facets:
+  1. Resolve each company to its organization URN with `linkedin_search_targeting_entities`.
+  2. Create a company-list matched audience from those URNs (`linkedin_create_matched_audience`, `kind: company_list`), or reuse an existing one from `linkedin_list_matched_audiences`.
+  3. Take its `destinationSegmentId` from `linkedin_list_matched_audiences`.
+  4. Put that segment in the saved audience's `exclude` under `urn:li:adTargetingFacet:audienceMatchingSegments`.
+  LinkedIn stores this on the saved audience itself, so Campaign Manager keeps it. LinkedIn accepts the segment while it is still building, but a list takes **2 to 4 days** to finish building, so the suppression is not effective right away. A list of a few small companies may match fewer than ~300 members: LinkedIn still accepts it as an exclusion on the saved audience, but whether a campaign using it activates cleanly is unverified, so tell the user to check the campaign in Campaign Manager before launch.
+- It **cannot hold uploaded email/contact lists or company lists.** Those are LinkedIn **matched audiences** (DMP segments), a separate object. If the user wants "exclude our customer list" or "exclude these named competitors" and that list isn't a small set you can resolve as `employers`/`employersAll` facet entities, use a matched audience instead: check `explore_platform` for tools whose summaries cover listing, creating and applying matched audiences, reuse an existing list if one matches, otherwise create one from the user's list, then either exclude it on the saved audience (the company-list steps above) or apply it to the campaign as an exclusion. Never imply the employer facets alone cover it. A matched audience used for *targeting* needs at least 300 matched members before a campaign can use it, and LinkedIn takes time to match an upload, so tell the user it may not be usable right away. If the user's LinkedIn connection is missing the matched-audience permission, they need to reconnect LinkedIn in Jumon.
 - It has **no Audience Expansion, LinkedIn Audience Network, or location-type setting** — those live on the *campaign*, not the audience. Don't collect them while building the audience; collect them when applying it (see below).
 - Applying a saved audience to a campaign **stamps** today's targeting onto it — it is not a live link. Editing the saved audience later does not update campaigns it was already applied to. Say this to the user; it's a LinkedIn limitation, not a Jumon one.
 
@@ -48,7 +54,7 @@ Whatever the source, state it plainly in the draft ("from HubSpot closed-won + o
 
 - **Never add "CEO" as a job title.** Everyone is a CEO of something on LinkedIn; it makes the inclusion list meaningless. If the user asks for it, say why and suggest company-size or seniority facets instead.
 - **Split by real role differences, not just headcount.** e.g. CFO/VP Finance is a different buyer than Controller/Head of AR — keep them as separate audiences if the pitch or creative would differ.
-- **Exclude what a facet can actually express.** Employer-name exclusions (a short list of named competitors/own company) work as a facet. A CRM-scale customer/competitor list does not: route it to a matched audience per "What a saved audience can and can't hold" above instead of silently skipping it.
+- **Exclude what a facet can actually express.** Employer-name exclusions (a short list of named competitors/own company) work as a facet when the audience is only ever applied through Jumon; if it may be applied from Campaign Manager, use the company-list path above instead. A CRM-scale customer/competitor list does not: route it to a matched audience per "What a saved audience can and can't hold" above instead of silently skipping it.
 
 ## Always draft before executing
 
@@ -75,6 +81,7 @@ Confirm what was created (name, resolved facet/title count, audience-size estima
 - Creating the audience before showing the resolved facet list and size estimate for review.
 - Treating Audience Expansion / Audience Network / location type as audience-creation settings — they belong to applying, not creating.
 - Putting a company/contact-list exclusion in a saved audience instead of a matched audience.
+- Relying on employer facets for exclusions that must survive a Campaign Manager apply, instead of excluding a company-list matched audience.
 - Treating "CEO" as a harmless catch-all title.
 - Guessing a facet URN instead of resolving it with `linkedin_search_targeting_entities`.
 - Creating audiences one by one with separate approvals when `execute_write_batch` is available.
