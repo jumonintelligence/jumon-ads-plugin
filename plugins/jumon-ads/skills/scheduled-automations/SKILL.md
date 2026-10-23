@@ -2,7 +2,7 @@
 name: scheduled-automations
 description: "When the user wants to schedule a recurring Jumon report or briefing — asks to 'set up an automation', 'run this every Monday', 'email me a daily CAC check', 'Slack me a weekly pacing summary', 'pause my automation', or 'update the schedule on my report'. Use for creating, listing, editing, enabling/disabling, or deleting scheduled unattended automations. For a one-off performance review right now, use ad-performance-review instead."
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Scheduled Automations
@@ -32,7 +32,7 @@ Automations run with **no clarifying questions** and **cannot perform live ad wr
 
 1. State assumptions explicitly (date window, metrics, thresholds) instead of asking.
 2. Prefer portfolio-first analysis when the scope is many accounts; then drill into outliers.
-3. Require a verification pass and caveat surfacing for numbers (Jumon reporting is still maturing).
+3. Require a verification pass and surface hint, truncation, and timezone caveats with the numbers.
 4. Recommend changes in the report — never instruct the run to pause campaigns or change budgets itself.
 5. End with a clear send-or-skip intent when the user gave a delivery condition ("only notify when…").
 
