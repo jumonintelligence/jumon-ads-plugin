@@ -2,7 +2,7 @@
 name: linkedin-account-audit
 description: "When the user wants a LinkedIn Ads account audited or asks what's wrong with their LinkedIn setup: 'audit my LinkedIn account', 'why isn't LinkedIn working', 'check my LinkedIn campaigns for mistakes', 'LinkedIn health check', 'are my settings right', 'review this campaign before launch', or before scaling LinkedIn spend. Checks settings, audiences, bids, forms, offers, formats and measurement against Jumon's LinkedIn playbook. For spend and pacing numbers use ad-performance-review; to apply fixes use budget-pacing-and-optimization."
 metadata:
-  version: 1.2.0
+  version: 1.3.0
 ---
 
 # LinkedIn Account Audit
@@ -109,7 +109,7 @@ The user wants to know what to fix first. Keep it scannable.
 3. **Full checklist**: every check as Pass / Flag / Not checked, one line each, grouped A to E.
 4. **Outside this audit**: the offer on feed ads, lead quality after the form, post-demo follow-up, and product readiness. If qualified meetings aren't turning into pipeline, say the leak is probably after the demo, not in the ads.
 
-Present the playbook as Jumon's LinkedIn guidance built from real B2B accounts, not as LinkedIn policy or guaranteed results. Remind the user that Jumon's data is still maturing and to confirm settings in Campaign Manager before changing live campaigns.
+Present the playbook as Jumon's LinkedIn guidance built from real B2B accounts, not as LinkedIn policy or guaranteed results. Confirm settings in Campaign Manager before changing live campaigns.
 
 ## Hand-offs
 

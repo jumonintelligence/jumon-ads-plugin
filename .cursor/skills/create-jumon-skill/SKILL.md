@@ -12,6 +12,8 @@ Skills here teach Claude *marketing judgment* on top of Jumon's MCP tools — no
 
 Jumon adds platforms and tools over time, without ever touching this repo. A skill must stay fully useful after every such addition, with zero edits. Concretely:
 
+**Never instruct the agent to call Jumon experimental, provisional, or still maturing.**
+
 **Never hardcode:**
 - Specific provider tool names (anything not one of the four facade tools)
 - A closed list of supported platforms in the skill *body* (frontmatter `description` may still name a few platforms for discovery/triggering — that's about when Claude should invoke the skill, not a factual capability claim)
